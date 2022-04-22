@@ -13,9 +13,17 @@ namespace Spaceship_Game_Slutprojekt
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        // Globals
+        public static Random slump = new Random();
+
         // Sprite
         Texture2D spaceShipPic;
+        Texture2D spaceShipPicNoThrust;
+
         Texture2D bulletPic;
+
+        Texture2D MonsterPic1;
+        Texture2D MonsterPic2;
 
         // Sprite Instances
         SpaceShip ship;
@@ -60,12 +68,13 @@ namespace Spaceship_Game_Slutprojekt
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             spaceShipPic = Content.Load<Texture2D>("ship");
+            spaceShipPicNoThrust = Content.Load<Texture2D>("ship_no_thrust");
             bulletPic = Content.Load<Texture2D>("bullet");
+            MonsterPic1 = Content.Load<Texture2D>("monster_fly1");
+            MonsterPic2 = Content.Load<Texture2D>("monster_fly2");
 
-            ship = new SpaceShip(spaceShipPic, _spriteBatch, _graphics, bulletPic);
+            ship = new SpaceShip(spaceShipPic, spaceShipPicNoThrust, _spriteBatch, _graphics, bulletPic);
             ship.SpawnInMem();
-
-
         }
 
         protected override void Update(GameTime gameTime)

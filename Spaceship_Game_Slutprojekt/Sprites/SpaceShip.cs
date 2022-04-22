@@ -11,13 +11,18 @@ namespace Spaceship_Game_Slutprojekt.Sprites
     {
         private float Friction = 0.08f;
         private Texture2D BulletPic;
+        private Texture2D PicNoThrust;
+        private Texture2D PicThrust;
         private GameTime gameTime;
         private float LastShootTime = 0;
         private List<Bullet> ShotBullets = new List<Bullet>();
 
-        public SpaceShip(Texture2D pic, SpriteBatch spriteBatch, GraphicsDeviceManager graphics, Texture2D bulletPic)
+        public SpaceShip(Texture2D pic, Texture2D picNoThrust, SpriteBatch spriteBatch, GraphicsDeviceManager graphics, Texture2D bulletPic)
             :base(pic, spriteBatch, graphics){
             BulletPic = bulletPic;
+            PicNoThrust = picNoThrust;
+            PicThrust = pic;
+            Pic = PicNoThrust;
         }
 
         public override void SpawnInMem()
@@ -61,10 +66,14 @@ namespace Spaceship_Game_Slutprojekt.Sprites
             {
                 Speed.X += (float)Math.Cos(Rotation) * TangiVelocity;
                 Speed.Y += (float)Math.Sin(Rotation) * TangiVelocity;
+
+                Pic = PicThrust;
             }
             else if(Speed != Vector2.Zero)
             {
                 Speed -= Friction * Speed;
+
+                Pic = PicNoThrust;
             }
             Pos += Speed;
 
