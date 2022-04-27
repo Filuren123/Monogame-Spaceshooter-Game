@@ -28,11 +28,11 @@ namespace Spaceship_Game_Slutprojekt.Sprites
         protected MouseState mus;
         protected MouseState oldMus;
 
-        public Sprite(Texture2D pic, SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
+        public Sprite(Texture2D pic)
         {
             Pic = pic;
-            _spriteBatch = spriteBatch;
-            _graphics = graphics;
+            _spriteBatch = Game1._spriteBatch;
+            _graphics = Game1._graphics;
         }
 
         public abstract void SpawnInMem();

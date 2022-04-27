@@ -10,11 +10,8 @@ namespace Spaceship_Game_Slutprojekt
 {
     public class Game1 : Game
     {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
-
-        // Globals
-        public static Random slump = new Random();
+        public static GraphicsDeviceManager _graphics;
+        public static SpriteBatch _spriteBatch;
 
         // Sprite
         Texture2D spaceShipPic;
@@ -27,6 +24,7 @@ namespace Spaceship_Game_Slutprojekt
 
         // Sprite Instances
         SpaceShip ship;
+        List<Enemy> enemies = new List<Enemy>();
 
         // Scene
         enum scenes
@@ -54,7 +52,7 @@ namespace Spaceship_Game_Slutprojekt
             _graphics.PreferredBackBufferWidth *= 2;
             _graphics.PreferredBackBufferHeight *= 2;
             _graphics.ApplyChanges();
-
+            
             tang = Keyboard.GetState();
             oldTang = tang;
             mus = Mouse.GetState();
@@ -73,8 +71,16 @@ namespace Spaceship_Game_Slutprojekt
             MonsterPic1 = Content.Load<Texture2D>("monster_fly1");
             MonsterPic2 = Content.Load<Texture2D>("monster_fly2");
 
-            ship = new SpaceShip(spaceShipPic, spaceShipPicNoThrust, _spriteBatch, _graphics, bulletPic);
+            ship = new SpaceShip(spaceShipPic, spaceShipPicNoThrust, bulletPic);
             ship.SpawnInMem();
+
+            for (int i = 0; i < 20; i++)
+            {
+                var tempEnemy = new Enemy(MonsterPic1, MonsterPic2);
+                tempEnemy.SpawnInMem();
+
+                enemies.Add(tempEnemy);
+            }
         }
 
         protected override void Update(GameTime gameTime)
@@ -89,6 +95,11 @@ namespace Spaceship_Game_Slutprojekt
             oldMus = mus;
 
             ship.Update(tang, oldTang, mus, oldMus, gameTime);
+
+            foreach (var enemy in enemies)
+            {
+                enemy.Update(gameTime);
+            }
 
             base.Update(gameTime);
         }
@@ -117,6 +128,11 @@ namespace Spaceship_Game_Slutprojekt
         // All scence
         private void DrawInGameScene()
         {
+            foreach (var enemy in enemies)
+            {
+                enemy.Draw();
+            }
+
             ship.Draw();
         }
     }

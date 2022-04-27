@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Spaceship_Game_Slutprojekt.Sprites
 {
-    class SpaceShip : Sprite
+    sealed class SpaceShip : Sprite
     {
         private float Friction = 0.08f;
         private Texture2D BulletPic;
@@ -17,8 +17,8 @@ namespace Spaceship_Game_Slutprojekt.Sprites
         private float LastShootTime = 0;
         private List<Bullet> ShotBullets = new List<Bullet>();
 
-        public SpaceShip(Texture2D pic, Texture2D picNoThrust, SpriteBatch spriteBatch, GraphicsDeviceManager graphics, Texture2D bulletPic)
-            :base(pic, spriteBatch, graphics){
+        public SpaceShip(Texture2D pic, Texture2D picNoThrust, Texture2D bulletPic)
+            :base(pic){
             BulletPic = bulletPic;
             PicNoThrust = picNoThrust;
             PicThrust = pic;
@@ -116,7 +116,7 @@ namespace Spaceship_Game_Slutprojekt.Sprites
 
         public void ShootBullet()
         {
-            var newBullet = new Bullet(BulletPic, Pos, TangiVelocity, Rotation, _spriteBatch, _graphics);
+            var newBullet = new Bullet(BulletPic, Pos, TangiVelocity, Rotation);
             ShotBullets.Add(newBullet);
         }
     }

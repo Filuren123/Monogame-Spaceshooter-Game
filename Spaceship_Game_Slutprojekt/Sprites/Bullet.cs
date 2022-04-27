@@ -21,14 +21,14 @@ namespace Spaceship_Game_Slutprojekt.Sprites
         private GraphicsDeviceManager _graphics;
         public bool BulletAlive = true;
 
-        public Bullet(Texture2D pic, Vector2 pos, float tangiVelo, float rotation, SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
+        public Bullet(Texture2D pic, Vector2 pos, float tangiVelo, float rotation)
         {
             Pic = pic;
             Pos = pos;
             TangiVelo = tangiVelo + 30;
             Rotation = rotation;
-            _spriteBatch = spriteBatch;
-            _graphics = graphics;
+            _spriteBatch = Game1._spriteBatch;
+            _graphics = Game1._graphics;
             ShootBullet(Pos, Speed, Rotation);
 
             // Build speed
