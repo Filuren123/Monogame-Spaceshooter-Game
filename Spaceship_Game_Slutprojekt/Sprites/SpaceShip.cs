@@ -13,9 +13,10 @@ namespace Spaceship_Game_Slutprojekt.Sprites
         private Texture2D BulletPic;
         private Texture2D PicNoThrust;
         private Texture2D PicThrust;
-        private GameTime gameTime;
         private float LastShootTime = 0;
-        private List<Bullet> ShotBullets = new List<Bullet>();
+        private List<Bullet> _shotBullets = new List<Bullet>();
+
+        public List<Bullet> ShotBullets { get { return _shotBullets; } }
 
         public SpaceShip(Texture2D pic, Texture2D picNoThrust, Texture2D bulletPic)
             :base(pic){
@@ -34,19 +35,20 @@ namespace Spaceship_Game_Slutprojekt.Sprites
             TangiVelocity = 0.2f;
         }
 
-        public void Update(KeyboardState u_tang, KeyboardState u_oldTang, MouseState u_mus, MouseState u_oldMus, GameTime u_gameTime)
+        public void Update(GameTime u_gameTime)
         {
             // Update input vars
-            tang = u_tang;
-            oldTang = u_oldTang;
-            mus = u_mus;
-            oldMus = u_oldMus;
-            gameTime = u_gameTime;
+            tang = Game1.tang;
+            oldTang = Game1.oldTang;
+            mus = Game1.mus;
+            oldMus = Game1.oldMus;
+            _gameTime = u_gameTime;
 
             // Run sprite methods
             PositionHitbox();
             Move();
             ExecuteWallWalking();
+            TryShootBullet();
         }
 
         private void PositionHitbox()
@@ -75,17 +77,25 @@ namespace Spaceship_Game_Slutprojekt.Sprites
 
                 Pic = PicNoThrust;
             }
-            Pos += Speed;
+            Pos += Speed;            
+        }
 
-            // Check if shooting
+        private void TryShootBullet()
+        {
             if (mus.LeftButton == ButtonState.Pressed)
             {
-                float TimeBetweenShots = (float)gameTime.TotalGameTime.TotalMilliseconds - LastShootTime;
-                if (TimeBetweenShots > 200)
+                float TimeBetweenShots = (float)_gameTime.TotalGameTime.TotalMilliseconds - LastShootTime;
+                if (TimeBetweenShots > 0)
                 {
-                    LastShootTime = (float)gameTime.TotalGameTime.TotalMilliseconds;  
+                    LastShootTime = (float)_gameTime.TotalGameTime.TotalMilliseconds;
                     ShootBullet();
                 }
+            }
+
+            void ShootBullet()
+            {
+                var newBullet = new Bullet(BulletPic, Pos, TangiVelocity, Rotation);
+                _shotBullets.Add(newBullet);
             }
         }
 
@@ -99,25 +109,19 @@ namespace Spaceship_Game_Slutprojekt.Sprites
 
         public override void Draw()
         {
-            foreach (var bullet in ShotBullets)
+            foreach (var bullet in _shotBullets)
             {
                 bullet.Draw();
             }
-            foreach (var bullet in ShotBullets)
+            foreach (var bullet in _shotBullets)
             {
                 if (!bullet.BulletAlive)
                 {
-                    ShotBullets.Remove(bullet);
+                    _shotBullets.Remove(bullet);
                     break;
                 }
             }
             _spriteBatch.Draw(Pic, Pos, null, Color.White, Rotation, Orgin, 1f, SpriteEffects.None, 0f);
-        }
-
-        public void ShootBullet()
-        {
-            var newBullet = new Bullet(BulletPic, Pos, TangiVelocity, Rotation);
-            ShotBullets.Add(newBullet);
         }
     }
 }

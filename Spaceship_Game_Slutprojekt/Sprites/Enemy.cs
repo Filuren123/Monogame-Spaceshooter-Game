@@ -11,6 +11,10 @@ namespace Spaceship_Game_Slutprojekt.Sprites
     class Enemy : Sprite
     {
         List<Texture2D> FlyStates = new List<Texture2D>();
+        public bool IsDead = false;
+        double LastFlap = 0;
+        int FlapState = Utility.slump.Next(0, 2);
+        int FlapInterval = Utility.slump.Next(200, 600);
 
         public Enemy(Texture2D pic, Texture2D secondPic)
             :base(pic){
@@ -20,23 +24,55 @@ namespace Spaceship_Game_Slutprojekt.Sprites
 
         public override void SpawnInMem()
         {
-            Rect = new Rectangle(Utility.slump.Next(0, _graphics.PreferredBackBufferWidth - 100), Utility.slump.Next(0, _graphics.PreferredBackBufferHeight - 100), Pic.Width / 10, Pic.Height / 10);
+            Rect = new Rectangle(Utility.slump.Next(0, _graphics.PreferredBackBufferWidth - 100), Utility.slump.Next(0, _graphics.PreferredBackBufferHeight - 100), Pic.Width / 6, Pic.Height / 6);
             Speed = new Vector2(Utility.RandomNumExept0(-4, 4), Utility.RandomNumExept0(-4, 4));
         }
 
-        public void Update(GameTime gametime)
+        public void Update(GameTime gameTime, SpaceShip player1)
         {
+            _gameTime = gameTime;
+            FlapWings();
+            CheckIfDead(player1);
             CheckCollision();
             Move();
         }
 
-        public void Move()
+        private void Move()
         {
             Rect.X += (int)Speed.X;
             Rect.Y += (int)Speed.Y;
         }
 
-        public void CheckCollision()
+        private void FlapWings()
+        {
+            LastFlap += _gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (LastFlap >= FlapInterval)
+            {
+                FlapState++;
+                if (FlapState == FlyStates.Count)
+                {
+                    FlapState = 0;
+                }
+                Pic = FlyStates[FlapState];
+                LastFlap = 0;
+            }
+        }
+
+        private void CheckIfDead(SpaceShip player1)
+        {
+            var bulletCol = player1.ShotBullets;
+            foreach (var bullet in bulletCol)
+            {
+                if (Rect.Intersects(bullet.Hitbox))
+                {
+                    bulletCol.Remove(bullet);
+                    IsDead = true;
+                    break;
+                }
+            }
+        }
+
+        private void CheckCollision()
         {
             if (Rect.Left < 0 || Rect.Right > _graphics.PreferredBackBufferWidth)
             {

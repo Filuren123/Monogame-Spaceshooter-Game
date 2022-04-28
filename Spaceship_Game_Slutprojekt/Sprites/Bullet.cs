@@ -12,7 +12,6 @@ namespace Spaceship_Game_Slutprojekt.Sprites
         // Sprite props
         private Texture2D Pic;
         private Vector2 Pos;
-        private Rectangle Rect;
         private Vector2 Speed;
         private float TangiVelo;
         private float Rotation;
@@ -20,6 +19,9 @@ namespace Spaceship_Game_Slutprojekt.Sprites
         private SpriteBatch _spriteBatch;
         private GraphicsDeviceManager _graphics;
         public bool BulletAlive = true;
+        private Rectangle _hitbox;
+
+        public Rectangle Hitbox { get { return _hitbox; } }
 
         public Bullet(Texture2D pic, Vector2 pos, float tangiVelo, float rotation)
         {
@@ -38,7 +40,7 @@ namespace Spaceship_Game_Slutprojekt.Sprites
 
         public void ShootBullet(Vector2 pos, Vector2 speed, float rot)
         {
-            Rect = new Rectangle((int) Pos.X, (int) Pos.Y, 100, 100);
+            _hitbox = new Rectangle((int) Pos.X, (int) Pos.Y, Pic.Width, Pic.Height);
             Origin.X = Pic.Width / 2;
             Origin.Y = Pic.Height / 2;
         }
@@ -49,18 +51,23 @@ namespace Spaceship_Game_Slutprojekt.Sprites
             _spriteBatch.Draw(Pic, Pos, null, Color.White, Rotation, Origin, 1f, SpriteEffects.None, 0f);
         }
 
+        private void PosisionHitbox()
+        {
+            _hitbox.X = (int)Pos.X;
+            _hitbox.Y = (int)Pos.Y;
+        }
+
         private void Update()
         {
             UpdateOrigin();
             CheckIfDead();
+            PosisionHitbox();
             Pos += Speed;
-            Rect.X = (int)Pos.X;
-            Rect.Y = (int)Pos.Y;
         }
 
         private void CheckIfDead()
         {
-            if (Pos.X < 0 || Pos.X > _graphics.PreferredBackBufferWidth || Pos.Y < 0 || Pos.Y > _graphics.PreferredBackBufferHeight)
+            if (Pos.X < -40 || Pos.X > _graphics.PreferredBackBufferWidth + 40 || Pos.Y < -40 || Pos.Y > _graphics.PreferredBackBufferHeight + 40)
             {
                 BulletAlive = false;
             }

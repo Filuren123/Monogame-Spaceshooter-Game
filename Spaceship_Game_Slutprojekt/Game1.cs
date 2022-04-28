@@ -23,7 +23,7 @@ namespace Spaceship_Game_Slutprojekt
         Texture2D MonsterPic2;
 
         // Sprite Instances
-        SpaceShip ship;
+        SpaceShip player1;
         List<Enemy> enemies = new List<Enemy>();
 
         // Scene
@@ -35,10 +35,10 @@ namespace Spaceship_Game_Slutprojekt
         private int currentScene = (int)scenes.inGame;
 
         // Input vars
-        KeyboardState tang;
-        KeyboardState oldTang;
-        MouseState mus;
-        MouseState oldMus;
+        public static KeyboardState tang;
+        public static KeyboardState oldTang;
+        public static MouseState mus;
+        public static MouseState oldMus;
 
         public Game1()
         {
@@ -71,10 +71,10 @@ namespace Spaceship_Game_Slutprojekt
             MonsterPic1 = Content.Load<Texture2D>("monster_fly1");
             MonsterPic2 = Content.Load<Texture2D>("monster_fly2");
 
-            ship = new SpaceShip(spaceShipPic, spaceShipPicNoThrust, bulletPic);
-            ship.SpawnInMem();
+            player1 = new SpaceShip(spaceShipPic, spaceShipPicNoThrust, bulletPic);
+            player1.SpawnInMem();
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 15; i++)
             {
                 var tempEnemy = new Enemy(MonsterPic1, MonsterPic2);
                 tempEnemy.SpawnInMem();
@@ -94,11 +94,16 @@ namespace Spaceship_Game_Slutprojekt
             mus = Mouse.GetState();
             oldMus = mus;
 
-            ship.Update(tang, oldTang, mus, oldMus, gameTime);
+            player1.Update(gameTime);
 
             foreach (var enemy in enemies)
             {
-                enemy.Update(gameTime);
+                enemy.Update(gameTime, player1);
+                if (enemy.IsDead)
+                {
+                    enemies.Remove(enemy);
+                    break;
+                }
             }
 
             base.Update(gameTime);
@@ -133,7 +138,7 @@ namespace Spaceship_Game_Slutprojekt
                 enemy.Draw();
             }
 
-            ship.Draw();
+            player1.Draw();
         }
     }
 }

@@ -21,6 +21,7 @@ namespace Spaceship_Game_Slutprojekt.Sprites
         // Sprite utility
         protected SpriteBatch _spriteBatch;
         protected GraphicsDeviceManager _graphics;
+        protected GameTime _gameTime;
 
         // Input vars
         protected KeyboardState tang;
