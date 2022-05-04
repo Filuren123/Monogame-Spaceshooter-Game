@@ -27,7 +27,7 @@ namespace Spaceship_Game_Slutprojekt
         List<Enemy> enemies = new List<Enemy>();
 
         // Fonts
-        SpriteFont Font_Georgia;
+        public static SpriteFont Font_Georgia;
 
         // Scene
         enum scenes
