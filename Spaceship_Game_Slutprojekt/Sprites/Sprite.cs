@@ -4,10 +4,11 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Spaceship_Game_Slutprojekt.Interfaces;
 
 namespace Spaceship_Game_Slutprojekt.Sprites
 {
-    abstract class Sprite
+    abstract class Sprite : IDraw
     {
         // Sprite props
         protected Texture2D Pic;
@@ -36,11 +37,11 @@ namespace Spaceship_Game_Slutprojekt.Sprites
             _graphics = Game1._graphics;
         }
 
-        public abstract void SpawnInMem();
-
         public virtual void Draw()
         {
             _spriteBatch.Draw(Pic, Rect, Color.White);
         }
+
+        public abstract void SpawnInMem();
     }
 }

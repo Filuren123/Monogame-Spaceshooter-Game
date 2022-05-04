@@ -26,6 +26,9 @@ namespace Spaceship_Game_Slutprojekt
         SpaceShip player1;
         List<Enemy> enemies = new List<Enemy>();
 
+        // Fonts
+        SpriteFont Font_Georgia;
+
         // Scene
         enum scenes
         {
@@ -70,6 +73,8 @@ namespace Spaceship_Game_Slutprojekt
             bulletPic = Content.Load<Texture2D>("bullet");
             MonsterPic1 = Content.Load<Texture2D>("monster_fly1");
             MonsterPic2 = Content.Load<Texture2D>("monster_fly2");
+            Font_Georgia = Content.Load<SpriteFont>("system_fet");
+
 
             player1 = new SpaceShip(spaceShipPic, spaceShipPicNoThrust, bulletPic);
             player1.SpawnInMem();
@@ -94,16 +99,14 @@ namespace Spaceship_Game_Slutprojekt
             mus = Mouse.GetState();
             oldMus = mus;
 
-            player1.Update(gameTime);
-
-            foreach (var enemy in enemies)
+            switch (currentScene)
             {
-                enemy.Update(gameTime, player1);
-                if (enemy.IsDead)
-                {
-                    enemies.Remove(enemy);
+                case (int)scenes.inGame:
+                    UpdateInGameScene(gameTime);
                     break;
-                }
+
+                default:
+                    break;
             }
 
             base.Update(gameTime);
@@ -139,6 +142,21 @@ namespace Spaceship_Game_Slutprojekt
             }
 
             player1.Draw();
+        }
+
+        private void UpdateInGameScene(GameTime gameTime)
+        {
+            player1.Update(gameTime);
+
+            foreach (var enemy in enemies)
+            {
+                enemy.Update(gameTime, player1);
+                if (enemy.IsDead)
+                {
+                    enemies.Remove(enemy);
+                    break;
+                }
+            }
         }
     }
 }

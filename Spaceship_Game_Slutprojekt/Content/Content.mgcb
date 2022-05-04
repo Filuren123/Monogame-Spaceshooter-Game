@@ -73,3 +73,10 @@
 /processorParam:TextureFormat=Color
 /build:ship_no_thrust.png
 
+#begin system_fet.spritefont
+/importer:FontDescriptionImporter
+/processor:LocalizedFontProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:system_fet.spritefont
+

@@ -85,7 +85,7 @@ namespace Spaceship_Game_Slutprojekt.Sprites
             if (mus.LeftButton == ButtonState.Pressed)
             {
                 float TimeBetweenShots = (float)_gameTime.TotalGameTime.TotalMilliseconds - LastShootTime;
-                if (TimeBetweenShots > 0)
+                if (TimeBetweenShots > 200)
                 {
                     LastShootTime = (float)_gameTime.TotalGameTime.TotalMilliseconds;
                     ShootBullet();
