@@ -12,8 +12,9 @@ namespace Spaceship_Game_Slutprojekt
     {
         public static GraphicsDeviceManager _graphics;
         public static SpriteBatch _spriteBatch;
+        private Color _backgroundColor = Color.DarkBlue;
 
-        // Sprite
+        // Sprite Textures
         Texture2D spaceShipPic;
         Texture2D spaceShipPicNoThrust;
 
@@ -104,7 +105,9 @@ namespace Spaceship_Game_Slutprojekt
                 case (int)scenes.inGame:
                     UpdateInGameScene(gameTime);
                     break;
-
+                case (int)scenes.mainMenu:
+                    UpdateMainMenu();
+                    break;
                 default:
                     break;
             }
@@ -114,7 +117,7 @@ namespace Spaceship_Game_Slutprojekt
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(_backgroundColor);
 
             _spriteBatch.Begin();
 
@@ -123,7 +126,9 @@ namespace Spaceship_Game_Slutprojekt
                 case (int)scenes.inGame:
                     DrawInGameScene();
                     break;
-
+                case (int)scenes.mainMenu:
+                    DrawMainMenu();
+                    break;
                 default:
                     break;
             }
@@ -157,6 +162,16 @@ namespace Spaceship_Game_Slutprojekt
                     break;
                 }
             }
+        }
+
+        private void DrawMainMenu()
+        {
+
+        }
+
+        private void UpdateMainMenu()
+        {
+
         }
     }
 }

@@ -67,6 +67,7 @@ namespace Spaceship_Game_Slutprojekt.Sprites
                 {
                     bulletCol.Remove(bullet);
                     IsDead = true;
+                    player1.Points++;
                     break;
                 }
             }

@@ -15,6 +15,11 @@ namespace Spaceship_Game_Slutprojekt.Sprites
         private Texture2D PicThrust;
         private float LastShootTime = 0;
         private List<Bullet> _shotBullets = new List<Bullet>();
+        private TextMessage PointDisplay = new TextMessage()
+        {
+            Pos = new Vector2(10, 10)
+        };
+        public int Points = 0;
 
         public List<Bullet> ShotBullets { get { return _shotBullets; } }
 
@@ -49,6 +54,7 @@ namespace Spaceship_Game_Slutprojekt.Sprites
             Move();
             ExecuteWallWalking();
             TryShootBullet();
+            UpdatePointDisplay();
         }
 
         private void PositionHitbox()
@@ -64,7 +70,7 @@ namespace Spaceship_Game_Slutprojekt.Sprites
             if (tang.IsKeyDown(Keys.A)) Rotation -= 0.05f;
 
             // Move ship
-            if (tang.IsKeyDown(Keys.W))
+            if (tang.IsKeyDown(Keys.W) && Speed.X < 15 && Speed.Y < 15 && Speed.X > -15 && Speed.Y > -15)
             {
                 Speed.X += (float)Math.Cos(Rotation) * TangiVelocity;
                 Speed.Y += (float)Math.Sin(Rotation) * TangiVelocity;
@@ -122,6 +128,12 @@ namespace Spaceship_Game_Slutprojekt.Sprites
                 }
             }
             _spriteBatch.Draw(Pic, Pos, null, Color.White, Rotation, Orgin, 1f, SpriteEffects.None, 0f);
+            PointDisplay.Draw();
+        }
+
+        private void UpdatePointDisplay()
+        {
+            PointDisplay.Score = Points;
         }
     }
 }
