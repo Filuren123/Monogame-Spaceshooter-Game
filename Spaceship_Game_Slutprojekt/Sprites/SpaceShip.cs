@@ -17,7 +17,8 @@ namespace Spaceship_Game_Slutprojekt.Sprites
         private List<Bullet> _shotBullets = new List<Bullet>();
         private TextMessage PointDisplay = new TextMessage()
         {
-            Pos = new Vector2(10, 10)
+            Pos = new Vector2(10, 10),
+            MessagePrefix = "Poäng: "
         };
         public int Points = 0;
 
@@ -128,7 +129,7 @@ namespace Spaceship_Game_Slutprojekt.Sprites
                 }
             }
             _spriteBatch.Draw(Pic, Pos, null, Color.White, Rotation, Orgin, 1f, SpriteEffects.None, 0f);
-            PointDisplay.Draw();
+            PointDisplay.DrawScore();
         }
 
         private void UpdatePointDisplay()

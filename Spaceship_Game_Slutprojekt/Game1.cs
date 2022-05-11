@@ -12,7 +12,9 @@ namespace Spaceship_Game_Slutprojekt
     {
         public static GraphicsDeviceManager _graphics;
         public static SpriteBatch _spriteBatch;
-        private Color _backgroundColor = Color.DarkBlue;
+        private Color _backgroundColor = Color.Black;
+
+        double TimeSinceLastEnemySpawn = 0;
 
         // Sprite Textures
         Texture2D spaceShipPic;
@@ -82,10 +84,7 @@ namespace Spaceship_Game_Slutprojekt
 
             for (int i = 0; i < 15; i++)
             {
-                var tempEnemy = new Enemy(MonsterPic1, MonsterPic2);
-                tempEnemy.SpawnInMem();
-
-                enemies.Add(tempEnemy);
+                SpawnEnemy();
             }
         }
 
@@ -162,6 +161,21 @@ namespace Spaceship_Game_Slutprojekt
                     break;
                 }
             }
+
+            TimeSinceLastEnemySpawn += gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (Utility.slump.Next(1, 60) == 2)
+            {
+                SpawnEnemy();
+                TimeSinceLastEnemySpawn = 0;
+            }
+        }
+
+        private void SpawnEnemy()
+        {
+            var tempEnemy = new Enemy(MonsterPic1, MonsterPic2);
+            tempEnemy.SpawnInMem();
+
+            enemies.Add(tempEnemy);
         }
 
         private void DrawMainMenu()
