@@ -4,7 +4,6 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Spaceship_Game_Slutprojekt.Interfaces;
 
 namespace Spaceship_Game_Slutprojekt.Sprites
 {
@@ -16,7 +15,7 @@ namespace Spaceship_Game_Slutprojekt.Sprites
         public Vector2 Pos;
 
         public int Score { get { return _score; } set { _score = value; } }
-        public string MessagePrefix { set { _messagePrefix = value; } }
+        public string MessagePrefix { get { return _messagePrefix; } set { _messagePrefix = value; } }
 
         SpriteBatch _spriteBatch = Game1._spriteBatch;
         GraphicsDeviceManager _grapics = Game1._graphics;
@@ -30,6 +29,11 @@ namespace Spaceship_Game_Slutprojekt.Sprites
         public void DrawMessage()
         {
             _spriteBatch.DrawString(Game1.Font_Georgia, _messagePrefix, Pos, Color.White);
+        }
+
+        public void PosisionHeader()
+        {
+            Pos = new Vector2(Game1._graphics.PreferredBackBufferWidth / 2 - Game1.Font_Georgia_49.MeasureString(MessagePrefix).X / 2, 200);
         }
     }
 }

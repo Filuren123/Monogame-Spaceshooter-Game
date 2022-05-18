@@ -4,11 +4,10 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Spaceship_Game_Slutprojekt.Interfaces;
 
 namespace Spaceship_Game_Slutprojekt.Sprites
 {
-    abstract class Sprite : IDraw
+    abstract class Sprite
     {
         // Sprite props
         protected Texture2D Pic;
